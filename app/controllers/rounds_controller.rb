@@ -1,0 +1,113 @@
+class RoundsController < ApplicationController
+  before_action :set_round, only: [:show, :edit, :update, :destroy , :enable]
+
+  # GET /rounds
+  # GET /rounds.json
+  def index
+    @rounds = Round.all
+  end
+
+  # GET /rounds/1
+  # GET /rounds/1.json
+  def show
+  end
+
+  # GET /rounds/new
+  def new
+    @round = Round.new
+  end
+
+  # GET /rounds/1/edit
+  def edit
+  end
+
+  # POST /rounds
+  # POST /rounds.json
+  def create
+    @round = Round.new(round_params)
+
+    respond_to do |format|
+      if @round.save
+        format.html { redirect_to @round, notice: 'Round was successfully created.' }
+        format.json { render :show, status: :created, location: @round }
+      else
+        format.html { render :new }
+        format.json { render json: @round.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT /rounds/1
+  # PATCH/PUT /rounds/1.json
+  def update
+    respond_to do |format|
+      if @round.update(round_params)
+        format.html { redirect_to @round, notice: 'Round was successfully updated.' }
+        format.json { render :show, status: :ok, location: @round }
+      else
+        format.html { render :edit }
+        format.json { render json: @round.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /rounds/1
+  # DELETE /rounds/1.json
+  def destroy
+    @round.destroy
+    respond_to do |format|
+      format.html { redirect_to rounds_url, notice: 'Round was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
+
+  def show_round
+    puts "Showing Round " + params[:id]
+    @team_round = TeamRound.find_by_id(params[:id])
+    @round = @team_round.round
+  end
+
+  def enable
+    previous_round = @round.previous_round
+    previous_round.is_enabled = false
+    previous_round.is_active = false
+    previous_round.is_closed = true
+    previous_round.save!
+    @round.is_enabled = true
+    @round.is_active = true
+    @round.is_closed = false
+    @round.save!
+    @round.teams.each do |team|
+      previous_team_round = TeamRound.where(:team => team).where(:round => previous_round).first
+      current_team_round = TeamRound.where(:team => team).where(:round => @round).first
+      TeamRound.copy_decision_values(previous_team_round,current_team_round)
+    end
+  end
+
+  def add_economic_data
+    my_params = params.permit(:economic_data , :round_id)
+    round = Round.find(my_params[:round_id])
+    puts "Round is "
+    ap round
+    round.economic_data.attach(my_params[:economic_data])
+  end
+
+  def add_debrief
+    my_params = params.permit(:debrief , :round_id)
+    round = Round.find(my_params[:round_id])
+    puts "Round is "
+    ap round
+    round.debrief.attach(my_params[:debrief])
+  end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_round
+      @round = Round.find(params[:id])
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def round_params
+      params.require(:round).permit(:name , :economic_data , :debrief)
+    end
+end

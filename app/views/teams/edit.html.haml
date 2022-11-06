@@ -1,0 +1,36 @@
+.page-header
+  = link_to teams_path, class: 'btn btn-default' do
+    %span.glyphicon.glyphicon-list-alt
+    Back
+  = link_to @team, class: 'btn btn-primary' do
+    %span.glyphicon.glyphicon-info-sign
+    Show
+  %h1 Editing team
+
+= form_for(@team, url: "/teams/" + @team.id.to_s) do |f|
+  -if @team.errors.any?
+    .alert.alert-danger.alert-dismissable{role: "alert"}
+      %button.close{type: "button", data: {dismiss: "alert"} }
+        %span{aria: {hidden: "true"} } &times;
+        %span.sr-only Close
+      %h4= "#{pluralize(@team.errors.count, "error")} prohibited this team from being saved:"
+
+      %ul
+        - @team.errors.full_messages.each do |msg|
+          %li= msg
+  .form-group
+    = f.hidden_field :simulation_id, value:@team.simulation_id
+  .form-group
+    = f.label :name, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_field :name, class: 'form-control'
+  .form-group
+    = f.label :password, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_field :password, class: 'form-control'
+
+  .row.my-2
+
+  .form-group
+    .col-sm-offset-2.col-sm-10
+      = f.submit class: 'btn btn-primary'

@@ -1,0 +1,35 @@
+<div class="row my-2">
+  <% label = @input_items.where(:identifier => name).first.label %>
+  <div class="col-4 text-end py-2">
+    <%= label %>
+  </div>
+  <div class="col-7">
+    <div class="row border border-dark p-2 rounded">
+      <div class="col-1 text-secondary">
+        <%= value_label %>
+      </div>
+      <div class="col-8">
+        <input type="range"
+               class="decision-slider form-range synced-input w-100 <%= @decisions.where(:field_name => name).first&.field_value == @decisions.where(:field_name => name).first&.original_value ? "original-decision-value" : "" %>" min="<%= @input_items.where(:identifier => name).first.min_value %>" max="<%= @input_items.where(:identifier => name).first.max_value %>" name="<%= name %>" id="<%= name %>" value="<%= @decisions.where(:field_name => name).first&.field_value %>" data-original-value="<%= @decisions.where(:field_name => name).first&.original_value %>" data-input-screen-id="<%= @input_screen.id %>">
+
+
+      </div>
+      <div class="col-2 decision-value">
+        <%= @decisions.where(:field_name => name).first&.field_value %>
+      </div>
+
+    </div>
+
+  </div>
+  <div class="col-1 py-2">
+
+    <% unless @input_items.where(:identifier => name).first.infolink.nil? %>
+      <a tabindex="-1" href="/info_link_pdfs/<%= @input_items.where(:identifier => name).first.infolink %>" target="_blank">
+        <div class="info-icon">
+          <%= fa_icon "info-circle" %>
+        </div>
+      </a>
+    <% end %>
+
+  </div>
+</div>

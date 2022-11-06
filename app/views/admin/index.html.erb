@@ -1,0 +1,149 @@
+
+<%= render :partial => '/home/page_header', locals: {header_text: "Simulation Deliveries"} %>
+<div class="row my-3">
+  <div class="col-3">
+    <a href="/simulations/new">
+      <button class="btn btn-secondary w-100 text-white">+ Create New Delivery</button>
+    </a>
+  </div>
+</div>
+<% Simulation.all.each do |simulation| %>
+  <%= render :partial => '/home/page_header', locals: {header_text: simulation.name} %>
+  <div class="row">
+    <div class="col-3">
+      <a href="/admin/manage_teams/<%= simulation.id %>">
+        <button class="btn btn-secondary w-100 text-white">Manage Teams</button>
+      </a>
+    </div>
+    <div class="col-3">
+      <a data-confirm="Are you sure?" data-method="delete" href="/simulations/<%= simulation.id %>"> <button class="btn btn-secondary w-100 text-white">Delete Delivery</button></a>
+    </div>
+    <div class="col-3">
+      <a href="/simulations/<%= simulation.id %>/edit_intro_text">
+        <button class="btn btn-secondary w-100 text-white">Edit Intro</button>
+      </a>
+
+    </div>
+  </div>
+  <div class="row mx-4 my-3 p-2 border ">
+    <div class="col-3">
+      <div class="h4">SimStart Reports</div>
+      <% if simulation.opening_report.attached? then %>
+        <div class="uploaded-file-name text-secondary me-1">Current File</div>
+        <div class="uploaded-file-name"><%= simulation.opening_report.filename %></div>
+      <% else %>
+        <div class="uploaded-file-name text-secondary me-1">Current File
+          <span class="uploaded-file-name">No File Uploaded Yet</span></div>
+      <% end %>
+      <div class="my-2">
+        <form enctype="multipart/form-data" action="/simulation/<%= simulation.id %>/add_opening_report" method="POST">
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+          <input type="file" name="opening_report" class="my-1">
+          <input type="submit" value="Upload SimStart Reports">
+        </form>
+      </div>
+    </div>
+
+    <!--    <div class="col-3">-->
+    <!--      <form enctype="multipart/form-data" action="/simulation/<%#= simulation.id %>/add_economic_data" method="POST">-->
+    <%# if simulation.economic_data.attached? then %>
+    <!--          <div class="uploaded-file-name">Current File:<%#= simulation.economic_data.filename %></div>-->
+    <%# else %>
+    <!--          <div class="uploaded-file-name">No File Uploaded Yet</div>-->
+    <%# end %>
+    <%#= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <!--        <input type="file" name="economic_data">-->
+    <!--        <input type="submit" value="Upload Economic Data">-->
+    <!--      </form>-->
+    <!--    </div>-->
+    <!--    <div class="col-3">-->
+    <%# if simulation.debrief.attached? then %>
+    <!--        <div class="uploaded-file-name">Current File:<%#= simulation.debrief.filename %></div>-->
+    <%# else %>
+    <!--        <div class="uploaded-file-name">No File Uploaded Yet</div>-->
+    <%# end %>
+    <!--      <form enctype="multipart/form-data" action="/simulation/<%#= simulation.id %>/add_debrief" method="POST">-->
+    <%#= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <!--        <input type="file" name="debrief">-->
+    <!--        <input type="submit" value="Upload Debrief">-->
+    <!--      </form>-->
+    <!--    </div>-->
+  </div>
+
+
+  <% simulation.rounds.each do |round| %>
+    <div class="row mx-4  border-top border-start border-end ">
+      <div class="col-10 px-5 py-2 ">
+        <h5>Round <%= round.round_number %></h5>
+      </div>
+
+
+      <% if round.is_enabled then %>
+        <div class="col-2 p-1 px-5 text-end">Current Round</div>
+      <% else %>
+        <div class="col-2 p-1 text-end">
+          <a href="/rounds/<%= round.id %>/enable">
+            <button class="btn  text-primary btn-link w-100 <%= round.previous_round&.is_enabled ? "" : " disabled " %>">Enable
+              Access
+            </button>
+          </a>
+        </div>
+      <% end %>
+
+    </div>
+    <div class="row mx-4  p-2 border-start border-end border-bottom">
+      <div class="col-3">
+        <div class="h5">Economic Data</div>
+        <% if round.economic_data.attached? then %>
+          <div class="uploaded-file-name text-secondary my-2  me-1">Current File
+            <span class="uploaded-file-name"><%= round.economic_data.filename %></span></div>
+        <% else %>
+          <div class="uploaded-file-name text-secondary my-2 me-1">Current File
+            <span class="uploaded-file-name">No File Uploaded Yet</span></div>
+        <% end %>
+        <form enctype="multipart/form-data" action="/round/<%= round.id %>/add_economic_data" method="POST">
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+          <input type="file" class="my-1" name="economic_data">
+          <input type="submit" class="my-1" value="Upload Economic Data">
+        </form>
+      </div>
+      <div class="col-3">
+        <div class="h5">Debrief</div>
+
+        <% if round.debrief.attached? then %>
+
+          <div class="uploaded-file-name text-secondary my-2  me-1">Current File
+            <span class="uploaded-file-name"><%= round.debrief.filename %></span></div>
+
+
+        <% else %>
+          <div class="uploaded-file-name text-secondary my-2 me-1">Current File
+            <span class="uploaded-file-name">No File Uploaded Yet</span></div>
+        <% end %>
+        <form enctype="multipart/form-data" action="/round/<%= round.id %>/add_debrief" method="POST">
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+          <input type="file" class="my-1" name="debrief">
+          <input type="submit"  class="my-1" value="Upload Debrief">
+        </form>
+      </div>
+      <div class="col-3">
+
+
+      </div>
+    </div>
+    <div class="row my-2"></div>
+
+  <% end %>
+  <div class="row mx-4  p-2 border-start border-end border-bottom">
+    <div class="col-6">
+      Enable Final Reports
+    </div>
+    <div class="col-6 text-end">
+      <a href="/simulations/<%= simulation.id %>/enable_final_reports">
+        <button class="btn  btn-secondary  ">Enable
+          Access To Final Reports
+        </button>
+      </a>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,14 @@
+.page-header
+  = link_to "/admin", class: 'btn btn-primary' do
+    %span.glyphicon.glyphicon-pencil
+    Back To Admin Dashboard
+  %h1 Show simulation
+
+%dl.dl-horizontal
+  %dt Name:
+  %dd= @simulation.name
+  %dt Number of rounds:
+  %dd= @simulation.number_of_rounds
+
+  %dt Intro Text
+  %dd= @simulation.intro_text&.html_safe

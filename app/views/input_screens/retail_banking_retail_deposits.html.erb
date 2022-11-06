@@ -1,0 +1,139 @@
+<script>
+  var channel;
+    $(function () {
+// Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+        var token = document.getElementsByName('csrf-token')[0].content
+
+        var pusher = new Pusher('d3a2645cfa3fdd883877', {
+            cluster: 'us2',
+            auth: {
+                params: {
+                    CSRFToken: token
+                }
+            }
+        });
+
+        channel = pusher.subscribe('private-test-input-client-<%= @team_round.team.name.parameterize %>-20-update-channel');
+        channel.bind('client-update', function (data) {
+            update_data_from_pusher(data);
+            // alert(JSON.stringify(data));
+        });
+        channel.bind("pusher:subscription_succeeded", function () {
+            console.log("Subscribe Succeeded");
+
+        });
+        $('.synced-input').keyup(function () {
+            console.log("Value d Changed!")
+            var the_value = $(this).val();
+            var the_id = $(this)[0].id;
+            console.log("The id is " + the_id);
+            var theTrigger = channel.trigger('client-update', {
+                type: "text",
+                id: the_id,
+                contents: the_value
+            });
+        });
+
+
+
+
+    });
+</script>
+
+<%= form_with url: "/input_screen/" + @input_screen.input_screen_number.to_s + "/submit_decisions", method: :post do |form| %>
+  <%= render  :partial => 'input_screen_button_bar' , locals: {input_screen: @input_screen}  %>
+<%= render :partial => '/home/page_header', locals: {header_text: "Checking Accounts"} %>
+<div class="row">
+  <div class="col-12">
+    <div class="text-end">
+      Marketing ($-millions)
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-6 p-2">
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "Minimum Balance", name: "retail_deposits_checking_accounts_minimum_balance", value_label:"$" } %>
+    </div>
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "Monthly Account Fee", name: "retail_deposits_checking_accounts_monthly_account_fee", value_label:"$" } %>
+    </div>
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "Rate", name: "retail_deposits_checking_accounts_rate", value_label:"%" } %>
+    </div>
+  </div>
+  <div class="col-6 p-2">
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "Underbanked", name: "retail_deposits_checking_accounts_underbanked", value_label:"$" } %>
+    </div>
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "Mass Market", name: "retail_deposits_checking_accounts_mass_market", value_label:"$" } %>
+    </div>
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "Mass Affluent", name: "retail_deposits_checking_accounts_mass_affluent", value_label:"$" } %>
+    </div>
+  </div>
+</div>
+<div class="row py-2">
+  <div class="col-6">
+    <%= render :partial => 'bar_graph' , locals: {title: "Deposit Balances",data:@data['retail_deposits_checking_accounts_graph_1'], options: @options['retail_deposits_checking_accounts_graph_1']} %>
+  </div>
+  <div class="col-6">
+    <%= render :partial => 'bar_graph' , locals: {title: "Cost of Funding",data:@data['retail_deposits_checking_accounts_graph_2'], options: @options['retail_deposits_checking_accounts_graph_2']} %>
+  </div>
+
+</div>
+<div class="row py-2">
+  <div class="col-6">
+    <%= render :partial => 'bar_graph' , locals: {title: "Deposit Margin",data:@data['retail_deposits_checking_accounts_graph_3'], options: @options['retail_deposits_checking_accounts_graph_3']} %>
+  </div>
+  <div class="col-6">
+    <%= render :partial => 'bar_graph' , locals: {title: "Products Per Customer",data:@data['retail_deposits_checking_accounts_graph_4'], options: @options['retail_deposits_checking_accounts_graph_4']} %>
+  </div>
+
+</div>
+
+
+
+
+<%= render :partial => '/home/page_header', locals: {header_text: "Savings Accounts"} %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="text-end">
+      Marketing ($-millions)
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-6 p-2">
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "Rate", name: "retail_deposits_savings_accounts_rate", value_label:"$" } %>
+    </div>
+  </div>
+  <div class="col-6 p-2">
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "Underbanked", name: "retail_deposits_savings_accounts_underbanked", value_label:"$" } %>
+    </div>
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "Mass Market", name: "retail_deposits_savings_accounts_mass_market", value_label:"$" } %>
+    </div>
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "Mass Affluent", name: "retail_deposits_savings_accounts_mass_affluent", value_label:"$" } %>
+    </div>
+  </div>
+</div>
+  <div class="row py-2">
+    <div class="col-6">
+      <%= render :partial => 'bar_graph' , locals: {title: "Deposit Margin",data:@data['retail_deposits_savings_accounts_graph_1'], options: @options['retail_deposits_savings_accounts_graph_1']} %>
+    </div>
+    <div class="col-6">
+      <%= render :partial => 'bar_graph' , locals: {title: "Products Per Customer",data:@data['retail_deposits_savings_accounts_graph_2'], options: @options['retail_deposits_savings_accounts_graph_2']} %>
+    </div>
+
+  </div>
+
+<%= render 'input_screen_bottom_button_bar' %>
+
+<% end %>

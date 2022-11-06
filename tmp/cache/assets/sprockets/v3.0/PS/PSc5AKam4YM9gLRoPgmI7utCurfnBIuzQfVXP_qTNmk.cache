@@ -1,0 +1,16 @@
+I"ê(function() {
+  jQuery(function() {
+    return console.log("App Coffee");
+  });
+
+  jQuery(function() {
+    return $('.xxreport-menu-item').click(function(event) {
+      var theUrl, the_team_round_id;
+      the_team_round_id = $(this)[0].getAttribute('data-team-round-id');
+      theUrl = "/team/reports/" + the_team_round_id;
+      return window.open(theUrl, "_blank");
+    });
+  });
+
+}).call(this);
+:ET

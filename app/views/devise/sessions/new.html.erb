@@ -1,0 +1,76 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <img src="<%= image_url('top_bar_logo.png') %>" class="top-bar-logo me-2">
+  <span class="navbar-brand text-light">Executive Suite Banking Simulation™ </span>
+  </div>
+</nav>
+<main class="col-12 bg-light">
+
+  <div class="row m-0 bg-white w-100">
+    <div class="col">
+
+      <div class="full-screen-background-image row vh-100 vw-100">
+        <div class="col-4">
+
+        </div>
+        <div class="col-4 ">
+          <div class="row">
+            <div class="col-12 text-center">Welcome to the</div>
+          </div>
+          <div class="row">
+            <div class="col-12 h2 text-center text-primary">Executive Suite Banking Simulation™ </div>
+          </div>
+          <div class="row my-4">
+            <div class="col-12 login-box">
+              <div class="row">
+                <div class="col-12 text-center my-2">
+                  Please enter your team name and the password provided by the Instructor
+                </div>
+                <div class="col-12 my-4">
+                  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+                    <div class="field my-2">
+                      <div class="row">
+                        <div class="col-4 my-2 text-start">
+                          Team Name:
+                        </div>
+                        <div class="col-8 my-2">
+                          <%= f.text_field :name %>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="field my-2">
+                      <div class="row">
+                        <div class="col-4 my-2 text-start">
+                          Password:
+                        </div>
+                        <div class="col-8 my-2">
+                          <%= f.password_field :password, autocomplete: "current-password" %>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="actions my-3">
+                      <%= f.submit "Submit", class: "text-white btn btn-primary" %>
+                    </div>
+                  <% end %>
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-4"></div>
+
+      </div>
+      <div class="row">
+        <div class="col-12 text-center">
+          © Performance Solutions International
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>

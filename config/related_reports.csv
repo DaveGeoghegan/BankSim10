@@ -1,0 +1,52 @@
+ScreenNumber,Screen,Related Reports,Report #
+1,Retail Deposits,Deposits,5
+1,,Asset/Liability Management,17
+1,,Average Balance Sheet,19
+1,,Economic Data,4
+1,,Competitive Information,29
+2,Investment Management,Investment Management,6
+2,,Income Statement,2
+2,,Competitive Information,29
+3,Consumer Lending,Consumer Lending,7
+3,,Allowance for Loan Losses,18
+3,,Average Balance Sheet,19
+3,,Economic Data,4
+3,,Competitive Information,30
+4,Mortgage Lending,Mortgage Lending,8
+4,,Allowance for Loan Losses,18
+4,,Average Balance Sheet,19
+4,,Economic Data,4
+4,,Competitive Information,30
+5,Retail Banking Operations,Operations,9
+5,,Income Statement,2
+5,,Scoring and Key Indicators,1
+5,,Competitive Information (Operations),31
+5,,Competitive Information (IT Investments),32
+6,Retail Banking Human Resources,Personnel,10
+6,,Income Statement,2
+6,,Scoring and Key Indicators,1
+7,Commercial Lending,Commercial Lending,11
+7,,Allowance for Loan Losses,18
+7,,Average Balance Sheet,19
+7,,Economic Data,4
+7,,Competitive Information,33
+8,Investment Banking,Investment Banking,12
+8,,Income Statement,2
+8,,Competitive Information,34
+9,Treasury Services,Treasury Services,13
+9,,Income Statement,2
+9,,Balance Sheet,3
+9,,Average Balance Sheet,19
+9,,Competitive Information,35
+10,Corporate Banking Operations,Operations,14
+10,,Income Statement,2
+10,,Scoring and Key Indicators,1
+10,,Competitive Information,36
+11,Corporate Banking Human Resources,Personnel,15
+11,,Income Statement,2
+11,,Scoring and Key Indicators,1
+12,Asset/Liability Management,Asset/Liability Management,17
+12,,Investment Portfolio,16
+12,,Economic Data,4
+12,,Balance Sheet,3
+12,,Average Balance Sheet,19

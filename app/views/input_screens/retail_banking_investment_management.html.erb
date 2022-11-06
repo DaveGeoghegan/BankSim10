@@ -1,0 +1,101 @@
+<script>
+    var channel;
+    $(function () {
+// Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+        var token = document.getElementsByName('csrf-token')[0].content
+
+        var pusher = new Pusher('d3a2645cfa3fdd883877', {
+            cluster: 'us2',
+            auth: {
+                params: {
+                    CSRFToken: token
+                }
+            }
+        });
+
+        channel = pusher.subscribe('private-test-input-client-<%= @team_round.team.name.parameterize %>-20-update-channel');
+        channel.bind('client-update', function (data) {
+            // alert(JSON.stringify(data));
+            update_data_from_pusher(data);
+        });
+        channel.bind("pusher:subscription_succeeded", function () {
+            console.log("Subscribe Succeeded");
+
+        });
+        $('.synced-input').keyup(function () {
+            console.log("Value d Changed!")
+            var the_value = $(this).val();
+            var the_id = $(this)[0].id;
+            console.log("The id is " + the_id);
+            var theTrigger = channel.trigger('client-update', {
+                type: "text",
+                id: the_id,
+                contents: the_value
+            });
+        });
+
+
+    });
+</script>
+
+<%= form_with url: "/input_screen/" + @input_screen.input_screen_number.to_s + "/submit_decisions", method: :post do |form| %>
+  <%= render  :partial => 'input_screen_button_bar' , locals: {input_screen: @input_screen}  %>
+<%= render :partial => '/home/page_header', locals: {header_text: "Investment Management"} %>
+<div class="row">
+  <div class="col-12">
+    <div class="text-end">
+      Marketing ($-millions)
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-6 p-2">
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "Investment Managment Fee", name: "investment_management_investment_management_investment_management_fee",value_label:"$"} %>
+    </div>
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "Financial Advisors", name: "investment_management_investment_management_financial_advisors",value_label:"$"} %>
+    </div>
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "FA Comission Rate", name: "investment_management_investment_management_fa_commission_rate",value_label:"%"} %>
+    </div>
+  </div>
+  <div class="col-6 p-2">
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "Underbanked", name: "investment_management_investment_management_underbanked",value_label:"$"} %>
+    </div>
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "Mass Market", name: "investment_management_investment_management_mass_market",value_label:"$"} %>
+    </div>
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "Mass Affluent", name: "investment_management_investment_management_mass_affluent",value_label:"$"} %>
+    </div>
+  </div>
+</div>
+<div class="row py-2">
+  <div class="col-6">
+    <%= render :partial => 'bar_graph' , locals: {title: "Assets Under Management($-billions)",data:@data['investment_management_investment_management_graph_1'], options: @options['investment_management_investment_management_graph_1']} %>
+  </div>
+  <div class="col-6">
+    <%= render :partial => 'bar_graph' , locals: {title: "Investment Management Fees",data:@data['investment_management_investment_management_graph_2'], options: @options['investment_management_investment_management_graph_2']} %>
+  </div>
+
+</div>
+<div class="row py-2">
+  <div class="col-6">
+    <%= render :partial => 'bar_graph' , locals: {title: "Financial Advisors",data:@data['investment_management_investment_management_graph_3'], options: @options['investment_management_investment_management_graph_3']} %>
+  </div>
+  <div class="col-6">
+    <%= render :partial => 'bar_graph' , locals: {title: "Clients Per FA",data:@data['investment_management_investment_management_graph_4'], options: @options['investment_management_investment_management_graph_4']} %>
+  </div>
+
+</div>
+
+
+
+
+
+<%= render 'input_screen_bottom_button_bar' %>
+
+<% end %>

@@ -1,0 +1,11 @@
+<li class="w-100 collapsed secondary-nav-element ps-3">
+  <a href="/round/<%= active_round.id %>/input_screen/<%= is.input_screen_number %>" class="nav-link px-0   <%= team_round_input_screen.was_visited? ? "visited-input-screen" : "" %> <%= is.input_screen_number == @input_screen&.input_screen_number ? 'active' : '' %>">
+    <% if team_round_input_screen.data_entered? then %>
+      <i class="fa fa-check"></i>
+    <% else %>
+      <i class="fa fa-empty" style="width:14px;height:14px"></i>
+    <% end %>
+    <%= is.navigation_label %>
+  </a>
+
+</li>

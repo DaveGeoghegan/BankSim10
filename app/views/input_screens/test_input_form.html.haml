@@ -1,0 +1,60 @@
+:javascript
+  $(function() {
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+    var token = document.getElementsByName('csrf-token')[0].content
+
+    var pusher = new Pusher('d3a2645cfa3fdd883877', {
+      cluster: 'us2',
+      auth: {
+        params: {
+          CSRFToken: token
+        }
+      }
+    });
+
+    var channel = pusher.subscribe('private-test-input-client-update-channel');
+    channel.bind('client-update', function(data) {
+     // alert(JSON.stringify(data));
+     var the_element = $('#' + data['id']).val(data['contents']);
+    });
+    channel.bind("pusher:subscription_succeeded",function() {
+      console.log("Subscribe Succeeded");
+
+    });
+    $('#test_input').keyup(function() {
+      console.log("Value Changed!")
+      var the_value = $(this).val();
+      var theTrigger = channel.trigger('client-update', {
+        id: "test_input",
+        type : "text",
+        contents: the_value});
+    });
+
+
+  });
+
+
+.container-fluid
+  .screen-title
+    Test Input Form
+  .pull-right
+
+  %input{:id => "test_input"} <- Type Here
+
+
+
+= render 'nav'
+
+.modal.fade{:role => "dialog", :id => 'error_modal', :tabindex => "-1"}
+  .modal-dialog.modal-sm
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4.modal-title Your Data has not Been Saved
+      .modal-body
+        %p Would you like to save your changes to decisions on this screen before leaving?
+      .modal-footer
+        %button.btn.btn-default.discard-changes-button{"data-dismiss" => "modal", :type => "button"} Discard Changes
+        %button.btn.btn-primary.save-changes-button{"data-dismiss" => "modal",:type => "button"} Save changes

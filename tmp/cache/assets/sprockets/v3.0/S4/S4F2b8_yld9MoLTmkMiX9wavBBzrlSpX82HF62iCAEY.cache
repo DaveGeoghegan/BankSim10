@@ -1,0 +1,56 @@
+I"Î(function() {
+  jQuery(function() {
+    return $('.round-button-group').on('click', '.start-round', function(event) {
+      var the_round_id, the_url;
+      console.log("Got A Click");
+      console.log($(this));
+      the_round_id = $(this)[0].getAttribute('data-team-round-id');
+      console.log(the_round_id);
+      the_url = '/round/' + the_round_id;
+      window.location = the_url;
+      return event.preventDefault();
+    });
+  });
+
+  jQuery(function() {
+    return $(".progress-bar").each(function(idx, val) {
+      var amount;
+      console.log("Processing a Progress Bar");
+      console.log(val);
+      amount = parseInt(val.getAttribute('data-progress'));
+      console.log("Amount is ");
+      console.log(amount);
+      return $(val).progressbar({
+        value: amount
+      });
+    });
+  });
+
+  jQuery(function() {
+    return $(".starxt-round").click(function(event) {
+      var round_id, theEl;
+      console.log("Clicked the Start Round Button");
+      console.log($(this)[0]);
+      theEl = $(this)[0];
+      theEl = $(theEl);
+      round_id = theEl.getAttribute("data-round-id");
+      return console.log("Round id " + round_id);
+    });
+  });
+
+  jQuery(function() {
+    return $('.input-screen-selections').on('click', '.input-screen-button', function(event) {
+      var the_round_id, the_screen_id, the_url;
+      console.log("Got A Click");
+      console.log($(this));
+      the_screen_id = $(this)[0].getAttribute('data-input-screen-id');
+      console.log(the_round_id);
+      the_round_id = $(this)[0].getAttribute('data-team-round-id');
+      the_url = '/round/' + the_round_id + '/input_screen/' + the_screen_id;
+      window.location = the_url;
+      return event.preventDefault();
+    });
+  });
+
+}).call(this);
+:ET

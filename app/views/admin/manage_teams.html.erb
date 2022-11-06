@@ -1,0 +1,84 @@
+<%= render :partial => '/home/page_header', locals: {header_text: @simulation.name + "  Teams"} %>
+<div class="row my-3 mx-4 ">
+  <div class="col-3">
+    <a href="/teams/<%= @simulation.id %>/new">
+      <button class="btn btn-secondary w-100 text-white">+ Create New Team</button>
+    </a>
+  </div>
+</div>
+<% @simulation.teams.where(:is_admin => false).each do |team| %>
+  <%= render :partial => '/home/page_header', locals: {header_text: team.name} %>
+
+  <div class="row  border ">
+    <div class="col-12">
+      <div class="row">
+        <div class="col-3 mx-4">
+          <a href="/teams/<%= team.id %>/edit">
+            <button class=" my-2 btn btn-secondary w-100 text-white">Edit Team Password</button>
+          </a>
+        </div>
+      </div>
+      <% team.rounds.each do |round| %>
+        <% team_round = TeamRound.where(:team => team).where(:round => round).first %>
+        <div class="row  m-3 border">
+          <div class="col-12 m-2">
+            <div class="row">
+              <div class="col-12 h5 ">
+
+                Round <%= round.round_number %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4">
+                <div class="h5 my-1">Graph Data</div>
+
+
+                <form enctype="multipart/form-data" action="/team_round/<%= team_round.id %>/add_graph_data" method="POST">
+                  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+                  <input type="file" name="graph_data">
+                  <input type="submit" value="Upload Graph Data for round <%= round.round_number %>">
+                </form>
+                <% if !team_round.graph_data_file_name.blank? %>
+                  <div class="uploaded-file-name text-secondary my-2  me-1">Current File
+                    <span class="uploaded-file-name"><%= team_round.graph_data_file_name %></span></div>
+                <% else %>
+                  <div class="uploaded-file-name text-secondary my-2  me-1">Current File
+                    <span class="uploaded-file-name">No File Uploaded Yet</span></div>
+                <% end %>
+              </div>
+
+              <div class="col-4">
+                <div class="h5 my-1">Decisions</div>
+                <a href="/team/export/<%= team_round.id %>">
+                  <button class=" my-2 btn btn-primary  text-white">Download Round <%= round.round_number %>
+                    Decisions
+                  </button>
+                </a>
+                <div class="my-2"> Round <%= team_round.round.round_number %> decisions
+                  <%= team_round.is_submitted == true ? "Submitted" : "Not Submitted" %>
+                </div>
+              </div>
+
+              <div class="col-4">
+                <div class="h5 my-1">Report</div>
+
+                <form class="my-2" enctype="multipart/form-data" action="/team_round/<%= team_round.id %>/add_report" method="POST">
+                  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+                  <input type="file" name="round_report">
+                  <input type="submit" value="Upload Round <%= round.round_number %> Report">
+                </form>
+                <% if team_round.round_report.attached? then %>
+                  <div class="uploaded-file-name text-secondary my-2  me-1">Current File
+                    <span class="uploaded-file-name"><%= team_round.round_report.filename %></span></div>
+                <% else %>
+                  <div class="uploaded-file-name text-secondary my-2  me-1">Current File
+                    <span class="uploaded-file-name">No File Uploaded</span></div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,196 @@
+<script>
+    var channel;
+    $(function () {
+// Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+        var token = document.getElementsByName('csrf-token')[0].content
+
+        var pusher = new Pusher('d3a2645cfa3fdd883877', {
+            cluster: 'us2',
+            auth: {
+                params: {
+                    CSRFToken: token
+                }
+            }
+        });
+
+        channel = pusher.subscribe('private-test-input-client-<%= @team_round.team.name.parameterize %>-20-update-channel');
+        channel.bind('client-update', function (data) {
+            // alert(JSON.stringify(data));
+            update_data_from_pusher(data);
+        });
+        channel.bind("pusher:subscription_succeeded", function () {
+            console.log("Subscribe Succeeded");
+
+        });
+        $('.synced-input').keyup(function () {
+            console.log("Value d Changed!")
+            var the_value = $(this).val();
+            var the_id = $(this)[0].id;
+            console.log("The id is " + the_id);
+            var theTrigger = channel.trigger('client-update', {
+                type: "text",
+                id: the_id,
+                contents: the_value
+            });
+        });
+
+        update_totals();
+
+    });
+</script>
+
+<%= render  :partial => 'input_screen_button_bar' , locals: {input_screen: @input_screen}  %>
+<%= render :partial => '/home/page_header', locals: {header_text: "Investment Portfolio"} %>
+<div class="row">
+  <div class="col-4 p-2 text-end px-5 ">
+    Purchases ($-millions)
+  </div>
+  <div class="col-4 p-2 text-end ">
+    Sales ($-millions)
+  </div>
+  <div class="col-2 p-2 text-end px-5">
+  </div>
+</div>
+<div class="row my-0 p-0">
+  <div class="col-4 p-0 my-0">
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "Treasuries", name: "asset_liability_management_purchases_treasuries", value_label: "$"} %>
+    </div>
+  </div>
+  <div class="col-4 p-0 my-0">
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "", name: "asset_liability_management_sales_treasuries", value_label: "$"} %>
+    </div>
+  </div>
+  <div class="col-3 p-0 my-0">
+  </div>
+</div>
+
+
+
+
+<div class="row">
+  <div class="col-4 p-0  my-0">
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "Mortgage Backed Securities", name: "asset_liability_management_purchases_mortgage_backed_securities", value_label: "$"} %>
+    </div>
+
+  </div>
+  <div class="col-4 p-0">
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "", name: "asset_liability_management_sales_mortgage_backed_securities", value_label: "$"} %>
+    </div>
+
+
+  </div>
+
+
+</div>
+
+<div class="row">
+  <div class="col-4 p-0 my-0">
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "Investment-Grade Debt", name: "asset_liability_management_purchases_investment_grade_debt", value_label: "$"} %>
+    </div>
+
+  </div>
+  <div class="col-4 p-0">
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "", name: "asset_liability_management_sales_investment_grade_debt", value_label: "$"} %>
+    </div>
+
+
+  </div>
+
+
+</div>
+
+
+
+<div class="row py-2">
+  <div class="col-6">
+    <%= render :partial => 'bar_graph', locals: {title: "Investment Portfolio", data: @data['asset_liability_management_investment_portfolio_graph_1'], options: @options['asset_liability_management_investment_portfolio_graph_1']} %>
+  </div>
+  <div class="col-6">
+    <%= render :partial => 'bar_graph', locals: {title: "Investment Portfolio", data: @data['asset_liability_management_investment_portfolio_graph_2'], options: @options['asset_liability_management_investment_portfolio_graph_2']} %>
+  </div>
+
+</div>
+
+<%= render :partial => '/home/page_header', locals: {header_text: "Funding Mix (if needed)"} %>
+
+<div class="row my-0 p-0">
+  <div class="col-4 p-0 my-0">
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "Securitize Fixed Rate Mortgage Recievables", name: "asset_liability_management_funding_mix_securitize_fixed_rate_mortgage_recievables", value_label: "$"} %>
+    </div>
+
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "Securitize Variable Rate Mortgage Recievables", name: "asset_liability_management_funding_mix_securtize_variable_rate_mortgage_recievables", value_label: "$"} %>
+    </div>
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "Commercial Paper", name: "asset_liability_management_commercial_paper", value_label: "$"} %>
+    </div>
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "Fed Funds Purchased", name: "asset_liability_management_fed_funds_purchased", value_label: "$"} %>
+    </div>
+
+  </div>
+  <div class="col-4 py-3">
+    <div id="total-funding-mix">Total:<span id="total_funding_mix"></span></div>
+  </div>
+
+</div>
+
+
+
+
+
+<div class="row py-2">
+  <div class="col-6">
+    <%= render :partial => 'bar_graph', locals: {title: "Wholesale Funding", data: @data['asset_liability_management_funding_mix_graph_1'], options: @options['asset_liability_management_funding_mix_graph_1']} %>
+  </div>
+  <div class="col-6">
+    <%= render :partial => 'bar_graph', locals: {title: "Average Cost of Funding", data: @data['asset_liability_management_funding_mix_graph_2'], options: @options['asset_liability_management_funding_mix_graph_2']} %>
+  </div>
+</div>
+
+
+
+
+
+<%= render :partial => '/home/page_header', locals: {header_text: "Dividends"} %>
+
+<div class="row my-0 p-0">
+  <div class="col-6 p-0 my-0">
+    <div>
+      <%= render :partial => 'input_box', locals: {label: "Dividend Payout Ratio", name: "asset_liability_management_dividend_payout_ratio", value_label: "%"} %>
+    </div>
+
+
+
+  </div>
+
+</div>
+
+
+
+
+
+<div class="row py-2">
+  <div class="col-6">
+    <%= render :partial => 'bar_graph', locals: {title: "Wholesale Funding", data: @data['asset_liability_management_dividends_graph_1'], options: @options['asset_liability_management_dividends_graph_1']} %>
+  </div>
+  <div class="col-6">
+    <%= render :partial => 'bar_graph', locals: {title: "Average Cost of Funding", data: @data['asset_liability_management_dividends_graph_2'], options: @options['asset_liability_management_dividends_graph_2']} %>
+  </div>
+</div>
+
+
+
+
+
+
+
+<%= render 'input_screen_bottom_button_bar' %>

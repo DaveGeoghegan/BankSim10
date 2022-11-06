@@ -1,0 +1,40 @@
+<div class="row my-2">
+  <% label = @input_items.where(:identifier => name).first.label %>
+  <% values = @input_items.where(:identifier => name).first.options.split(",") %>
+  <% if label != "" %>
+    <div class="col-5 text-end">
+      <%= label %>
+    </div>
+  <% end %>
+  <div class="<%= label != '' ? 'col-6' : 'col-11' %>">
+    <div class="row border border-dark rounded">
+      <div class="col-1 text-end p-0 text-secondary"><%= @input_items.where(:identifier => name).first.value_label %></div>
+      <div class="col-11">
+
+
+        <select class="decision-select decision-input synced-select-input synced-input w-100 <%= @decisions.where(:field_name => name).first&.field_value == @decisions.where(:field_name => name).first&.original_value ? "original-decision-value" : "" %>"
+                name="<%= name %>"
+                id="<%= name %>"
+                value="<%= @decisions.where(:field_name => name).first&.field_value %>"
+                data-original-value="<%= @decisions.where(:field_name => name).first&.original_value %>"  data-input-screen-id="<%= @input_screen.id %>">
+
+
+          <% values.each do |value| %>
+            <option value="<%= value %>"  <%= @decisions.where(:field_name => name).first&.field_value == value ? 'selected="selected"' : '' %>
+            " ><%= value %></option>
+          <% end %>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="col-1 text-start p-1 m-0">
+    <% unless @input_items.where(:identifier => name).first.infolink.nil? %>
+      <a  tabindex="-1" href="/info_link_pdfs/<%= @input_items.where(:identifier => name).first.infolink %>" target="_blank">
+        <div class="info-icon">
+          <%= fa_icon "info-circle" %>
+        </div>
+      </a>
+    <% end %>
+  </div>
+
+</div>

@@ -1,0 +1,112 @@
+<script>
+    var channel;
+    $(function () {
+// Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+        var token = document.getElementsByName('csrf-token')[0].content
+
+        var pusher = new Pusher('d3a2645cfa3fdd883877', {
+            cluster: 'us2',
+            auth: {
+                params: {
+                    CSRFToken: token
+                }
+            }
+        });
+
+        channel = pusher.subscribe('private-test-input-client-<%= @team_round.team.name.parameterize %>-20-update-channel');
+        channel.bind('client-update', function (data) {
+            // alert(JSON.stringify(data));
+            update_data_from_pusher(data);
+        });
+        channel.bind("pusher:subscription_succeeded", function () {
+            console.log("Subscribe Succeeded");
+
+        });
+        $('.synced-input').keyup(function () {
+            console.log("Value d Changed!")
+            var the_value = $(this).val();
+            var the_id = $(this)[0].id;
+            console.log("The id is " + the_id);
+            var theTrigger = channel.trigger('client-update', {
+                type: "text",
+                id: the_id,
+                contents: the_value
+            });
+        });
+
+
+    });
+</script>
+
+<%= form_with url: "/input_screen/" + @input_screen.input_screen_number.to_s + "/submit_decisions", method: :post do |form| %>
+  <%= render  :partial => 'input_screen_button_bar' , locals: {input_screen: @input_screen}  %>
+  <%= render :partial => '/home/page_header', locals: {header_text: "Retail Banking Employee Compensation"} %>
+
+  <div class="row">
+    <div class="col-6 p-2">
+      <div>
+        <%= render :partial => 'input_box', locals: {label: "Change In Compensation", name: "retail_banking_employee_compensation_change_in_compensation", value_label: "%"} %>
+      </div>
+    </div>
+
+  </div>
+  <div class="row py-2">
+    <div class="col-6">
+      <%= render :partial => 'bar_graph', locals: {title: "Employee Retention Rate", data: @data['retail_banking_human_resources_compensation_graph_1'], options: @options['retail_banking_human_resources_compensation_graph_1']} %>
+    </div>
+    <div class="col-6">
+      <%= render :partial => 'bar_graph', locals: {title: "Efficiency Ratio", data: @data['retail_banking_human_resources_compensation_graph_2'], options: @options['retail_banking_human_resources_compensation_graph_2']} %>
+    </div>
+
+  </div>
+
+
+  <%= render :partial => '/home/page_header', locals: {header_text: "Training Budgets ($ per employee)"} %>
+
+  <div class="row">
+    <div class="col-6 p-2">
+      <div>
+        <div>
+          <%= render :partial => 'input_box', locals: {label: "Sales Training", name: "retail_banking_training_budgets_sales_training", value_label: "$"} %>
+        </div>
+        <div>
+          <%= render :partial => 'input_box', locals: {label: "Services Training", name: "retail_banking_training_budgets_services_training", value_label: "$"} %>
+        </div>
+        <div>
+          <%= render :partial => 'input_box', locals: {label: "Compliance Training", name: "retail_banking_training_budgets_compliance_training", value_label: "$"} %>
+        </div>
+        <div>
+          <%= render :partial => 'input_box', locals: {label: "Financial Advicsor Training", name: "retail_banking_training_budgets_financial_advisor_training", value_label: "$"} %>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="row py-2">
+      <div class="col-6">
+        <%= render :partial => 'bar_graph', locals: {title: "Deposit Balances ($-billions)", data: @data['retail_banking_human_resources_training_budgets_graph_1'], options: @options['retail_banking_human_resources_training_budgets_graph_1']} %>
+      </div>
+      <div class="col-6">
+        <%= render :partial => 'bar_graph', locals: {title: "Cost Of Funding", data: @data['retail_banking_human_resources_training_budgets_graph_2'], options: @options['retail_banking_human_resources_training_budgets_graph_2']} %>
+      </div>
+
+    </div>
+ <div class="row py-2">
+      <div class="col-6">
+        <%= render :partial => 'bar_graph', locals: {title: "Deposit Balances ($-billions)", data: @data['retail_banking_human_resources_training_budgets_graph_3'], options: @options['retail_banking_human_resources_training_budgets_graph_3']} %>
+      </div>
+      <div class="col-6">
+        <%= render :partial => 'bar_graph', locals: {title: "Cost Of Funding", data: @data['retail_banking_human_resources_training_budgets_graph_4'], options: @options['retail_banking_human_resources_training_budgets_graph_4']} %>
+      </div>
+
+    </div>
+
+
+
+
+
+    <%= render 'input_screen_bottom_button_bar' %>
+
+<% end %>

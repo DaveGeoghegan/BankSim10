@@ -1,0 +1,98 @@
+<%= render :partial => 'page_header', locals: {header_text: "SimStart"} %>
+<div class="row m-2">
+<!--  <div class="col-3">-->
+    <%# if @simulation.debrief.attached? then %>
+<!--      <a href="<%#= url_for(@simulation.debrief) %>" target="_blank">-->
+<!--        <button class="btn btn-sm btn-primary w-100"><span class="text-white">View Opening Debrief</span></button>-->
+<!--      </a>-->
+    <%# else %>
+<!--      <div> No Opening Debrief Available</div>-->
+    <%# end %>
+<!--  </div>-->
+  <div class="col-3">
+    <% if @simulation.opening_report.attached? then %>
+      <a href="<%= url_for(@simulation.opening_report) %>" target="_blank">
+        <button class="btn btn-sm btn-primary w-100"><span class="text-white">View Reports</span></button>
+      </a>
+    <% else %>
+      <button class="btn btn-sm btn-primary w-100 disabled "><span class="text-white">View Reports</span></button>
+    <% end %>
+  </div>
+<!--  <div class="col-3">-->
+    <%# if @simulation.economic_data.attached? then %>
+<!--      <a href="<%#= url_for(@simulation.economic_data) %>" target="_blank">-->
+<!--        <button class="btn btn-sm btn-primary w-100"><span class="text-white">View Opening Economic Data</span></button>-->
+<!--      </a>-->
+    <%# else %>
+<!--      <div> No Opening Economic Data Available</div>-->
+    <%# end %>
+<!--  </div>-->
+</div>
+
+<% current_team.team_rounds.each do |tr| %>
+  <%= render :partial => 'page_header', locals: {header_text: "Round " + tr.round.round_number.to_s} %>
+  <div class="row m-2">
+    <div class="col-3">
+      <% if tr.round.economic_data.attached? then %>
+        <a href="<%= url_for(tr.round.economic_data) %>" target="_blank">
+          <button class="btn btn-sm btn-primary w-100"><span class="text-white">View Economic Data</span></button>
+        </a>
+      <% else %>
+        <button class="btn btn-sm btn-primary w-100 disabled "><span class="text-white">View Economic Data</span></button>
+      <% end %>
+    </div>
+    <div class="col-3">
+      <% if tr.round_report.attached?  && tr.next_round_is_enabled then %>
+        <a href="<%= url_for(tr.round_report) %>" target="_blank">
+          <button class="btn btn-sm btn-primary w-100 "><span class="text-white">View Reports</span></button>
+        </a>
+
+      <% else %>
+        <button class="btn btn-sm btn-primary w-100 disabled "><span class="text-white">View Reports</span></button>
+      <% end %>
+    </div>
+    <div class="col-3">
+      <% if tr.round.debrief.attached?  && tr.next_round_is_enabled then %>
+        <a href="<%= url_for(tr.round.debrief) %>" target="_blank">
+          <button class="btn btn-sm btn-primary w-100"><span class="text-white">View Debrief</span></button>
+        </a>
+      <% else %>
+        <button class="btn btn-sm btn-primary w-100 disabled "><span class="text-white">View Debrief</span></button>
+      <% end %>
+    </div>
+
+
+    <div class="col-3">
+      <% if tr.is_finished == true  && false then %>
+        <div> This round has been submitted</div>
+      <% elsif !tr.round.is_active %>
+        <button class="btn btn-sm btn-secondary w-100 disabled "><span class="text-white">Round Inactive</span></button>
+      <% else %>
+        <a href="/round/<%= tr.round.id %>/input_screen/1">
+          <button class="btn btn-sm btn-secondary w-100"><span class="text-white">Enter Decisions</span></button>
+        </a>
+      <% end %>
+
+    </div>
+  </div>
+  <div class="row m-2">
+
+    <div class="col-6">
+    </div>
+    <div class="col-3">
+    </div>
+    <div class="col-3">
+      <% if tr.is_finished == true && false then %>
+        <div> This round has been submitted</div>
+      <% elsif !tr.round.is_active %>
+<!--        <div> This round has not been activated</div>-->
+      <% else %>
+        <a href="/team_round/<%= tr.id %>/submit_decisions">
+          <button onclick="return confirm('This is the last step to completing a round. Your decisions are final. Are you sure?')" class="btn btn-sm btn-primary w-100 submit-decisions " data-team-round-id="<%= tr.id %>">
+            <span class="text-white">Submit Decisions</span></button>
+        </a>
+
+      <% end %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,11 @@
+<% if data.nil? then %>
+  <div>No Data Available</div>
+<% else %>
+  <div class="mb-2">
+    <div class="graph-title h5">
+      <%= data[:datasets][0][:label] %>
+    </div>
+  </div>
+
+  <%= bar_chart data, options %>
+<% end %>

@@ -1,0 +1,28 @@
+<div class="row m-3">
+  <div class="col-2 align-start">
+    <% if @input_screen.input_screen_number == 1 %>
+      <button type="button" class="btn btn-sm btn-primary disabled nav-button">Back</button>
+
+    <% else %>
+      <% back_url = "/round/" + @round.round_number.to_s + "/input_screen/" + (@input_screen.input_screen_number - 1).to_s %>
+      <a href="<%= back_url %>">
+        <button type="button" class="btn btn-sm btn-primary nav-button ">Back</button>
+      </a>
+    <% end %>
+
+  </div>
+  <div class="col-8 ">
+  </div>
+  <div class="col-2 text-end">
+    <% if @input_screen.input_screen_number == 12 %>
+      <button type="button" class="btn btn-sm  text-white btn-primary disabled nav-button">Next</button>
+
+    <% else %>
+      <% next_url = "/round/" + @round.round_number.to_s + "/input_screen/" + (@input_screen.input_screen_number + 1).to_s %>
+      <a href="<%= next_url %>">
+
+        <button type="button" class="btn  text-white btn-sm btn-primary nav-button">Next</button>
+      </a>
+    <% end %>
+  </div>
+</div>

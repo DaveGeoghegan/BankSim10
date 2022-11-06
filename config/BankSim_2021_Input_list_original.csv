@@ -1,0 +1,126 @@
+﻿Type,Label,ID,Value Label,Options,Default Value,Max,Min,Step,info-link,Number Of Decimal Places
+input_box,Treasuries,asset_liability_management_purchases_treasuries,$,,1,200,0,1,info-link,0
+input_box,,asset_liability_management_sales_treasuries,$,,2,200,0,1,,1
+input_box,Mortgage Backed Securities,asset_liability_management_purchases_mortgage_backed_securities,$,,3,200,0,1,,2
+input_box,,asset_liability_management_sales_mortgage_backed_securities,$,,4,200,0,1,,0
+input_box,Investment-Grade Debt,asset_liability_management_purchases_investment_grade_debt,$,,5,200,0,1,,1
+input_box,,asset_liability_management_sales_investment_grade_debt,$,,6,200,0,1,,2
+input_box,Securitize Fixed Rate Mortgage Recievables,asset_liability_management_funding_mix_securitize_fixed_rate_mortgage_recievables,$,,7,200,0,1,,0
+input_box,Securitize Variable Rate Mortgage Recievables,asset_liability_management_funding_mix_securtize_variable_rate_mortgage_recievables,$,,8,200,0,1,,1
+input_box,Commercial Paper,asset_liability_management_commercial_paper,$,,9,200,0,1,,2
+input_box,Fed Funds Purchased,asset_liability_management_fed_funds_purchased,$,,10,200,0,1,,0
+input_box,Marketing ($-millions),commercial_lending_lines_of_credit_small_business_marketing,$,,11,200,0,1,,1
+input_box,Rate(basis points),commercial_lending_lines_of_credit_small_business_rate,#,,12,200,0,1,,2
+select_box,Credit Policy,commercial_lending_lines_of_credit_small_business_credit_policy,,"Moderate,Liberal,Conservative",13,200,0,1,,0
+select_box,Collections Strategy,commercial_lending_lines_of_credit_small_business_collections_strategy,,"Moderate,Liberal,Conservative",14,200,0,1,,1
+input_box,,commercial_lending_lines_of_credit_middle_market_marketing,$,,15,200,0,1,,2
+input_box,,commercial_lending_lines_of_credit_middle_market_rate,#,,16,200,0,1,,0
+select_box,,commercial_lending_lines_of_credit_middle_market_credit_policy,,"Moderate,Liberal,Conservative",17,200,0,1,,1
+input_box,,commercial_lending_lines_of_credit_large_corporate_marketing,$,,18,200,0,1,,2
+input_box,,commercial_lending_lines_of_credit_large_corporate_rate,#,,19,200,0,1,,0
+select_box,,commercial_lending_lines_of_credit_large_corporate_credit_policy,,"Moderate,Liberal,Conservative",20,200,0,1,,1
+input_box,Marketing ($-millions),commercial_lending_cre_loans_small_business_marketing,$,,21,200,0,1,,2
+input_box,Rate(basis points),commercial_lending_cre_loans_small_business_rate,#,,22,200,0,1,,0
+select_box,Credit Policy,commercial_lending_cre_loans_small_business_credit_policy,,"Moderate,Liberal,Conservative",23,200,0,1,,1
+select_box,Collections Strategy,commercial_lending_cre_loans_small_business_collections_strategy,,"Moderate,Liberal,Conservative",24,200,0,1,,2
+input_box,,commercial_lending_cre_loans_middle_market_marketing,$,,25,200,0,1,,0
+input_box,,commercial_lending_cre_loans_middle_market_rate,#,,26,200,0,1,,1
+select_box,,commercial_lending_cre_loans_middle_market_credit_policy,,"Moderate,Liberal,Conservative",27,200,0,1,,2
+input_box,,commercial_lending_cre_loans_large_corporate_marketing,$,,28,200,0,1,,0
+input_box,,commercial_lending_cre_loans_large_corporate_rate,#,,29,200,0,1,,1
+select_box,,commercial_lending_cre_loans_large_corporate_credit_policy,,"Moderate,Liberal,Conservative",30,200,0,1,,2
+input_box,Change In Compensation,corporate_banking_employee_compensation_change_in_compensation,%,,31,200,0,1,,0
+input_box,Sales Training,corporate_banking_training_budgets_sales_training,$,,32,200,0,1,,1
+input_box,Services Training,corporate_banking_training_budgets_services_training,$,,33,200,0,1,,2
+input_box,Compliance Training,corporate_banking_training_budgets_compliance_training,$,,34,200,0,1,,0
+input_box,Marketing ($-millions),investment_banking_marketing_small_business_marketing,$,,35,200,0,1,,1
+input_box,,investment_banking_marketing_middle_market_marketing,$,,36,200,0,1,,2
+input_box,,investment_banking_marketing_large_corporate_marketing,$,,37,200,0,1,,0
+input_box,Debt Underwriting (basis points of issuance),investment_banking_underwriting_fees_small_business_debt_underwriting,$,,38,200,0,1,,1
+input_box,Equity Underwriting (basis points of issuance),investment_banking_underwriting_fees_small_business_equity_underwriting,$,,39,200,0,1,,2
+input_box,,investment_banking_underwriting_fees_middle_market_debt_underwriting,$,,40,200,0,1,,0
+input_box,,investment_banking_underwriting_fees_middle_market_equity_underwriting,$,,41,200,0,1,,1
+input_box,,investment_banking_underwriting_fees_large_corporate_debt_underwriting,$,,42,200,0,1,,2
+input_box,,investment_banking_underwriting_fees_large_corporate_equity_underwriting,$,,43,200,0,1,,0
+input_box,Advisory Fee (basis points of deal),investment_banking_mergers_and_acquisitions_small_business_advisory_fee,$,,44,200,0,1,,1
+input_box,,investment_banking_mergers_and_acquisitions_middle_market_advisory_fee,$,,45,200,0,1,,2
+input_box,,investment_banking_mergers_and_acquisitions_large_corporate_advisory_fee,$,,46,200,0,1,,0
+input_box,Number of Researchers,investment_banking_research_staff_small_business_advisory_fee,#,,47,200,0,1,,1
+input_box,,investment_banking_research_staff_middle_market_advisory_fee,#,,48,200,0,1,,2
+input_box,,investment_banking_research_staff_large_corporate_debt_underwriting,#,,49,200,0,1,,0
+range_input_box,Commercial Lending,corporate_banking_operations_service_levels_commercial_lending,%,,50,200,0,1,,1
+range_input_box,CRE Lending,corporate_banking_operations_service_levels_cre_lending,%,,51,200,0,1,,2
+range_input_box,Investment Banking,corporate_banking_operations_service_levels_investment_banking,%,,52,200,0,1,,0
+range_input_box,Treasury Services,corporate_banking_operations_service_levels_treasury_services,%,,53,200,0,1,,1
+input_box,Marketing Analytics,corporate_banking_it_investments_marketing_analytics,$,,54,200,0,1,,2
+input_box,Risk Analytics,corporate_banking_it_investments_risk_analytics,$,,55,200,0,1,,0
+input_box,Research Analytics,corporate_banking_it_investments_research_analytics,$,,56,200,0,1,,1
+input_box,Treasury Platform,corporate_banking_it_investments_treasury_platform,$,,57,200,0,1,,2
+input_box,Process Automation,corporate_banking_it_investments_process_automation,$,,58,200,0,1,,0
+input_box,Employee Experience,corporate_banking_it_investments_employee_experience,$,,59,200,0,1,,1
+input_box,Marketing ($-millions),treasury_services_marketing_small_business_marketing,$,,60,200,0,1,,2
+input_box,,treasury_services_marketing_middle_market_marketing,$,,61,200,0,1,,0
+input_box,,treasury_services_marketing_large_corporate_marketing,$,,62,200,0,1,,1
+input_box,Minimum Balance ($),treasury_services_commercial_checking_accounts_minimum_balance,$,,63,200,0,1,,2
+input_box,Equity Underwriting (basis points of issuance),treasury_services_commercial_checking_accounts_monthly_maintenance_fee,$,,64,200,0,1,,0
+input_box,Annual Fee,consumer_lending_credit_cards_annual_fee,$,,65,200,0,1,,1
+input_box,APR,consumer_lending_credit_cards_apr,%,,66,200,0,1,,2
+input_box,Cash Back Feature,consumer_lending_credit_cards_cash_back_feature,$,,67,200,0,1,,0
+input_box,Minimum Credit Score,consumer_lending_credit_cards_minimum_credit_score,$,,68,200,0,1,,1
+select_box,Collections Strategy,consumer_lending_credit_cards_collections_strategy,,"Moderate,Liberal,Conservative",69,200,0,1,,2
+input_box,Underbanked,consumer_lending_credit_cards_underbanked,$,,70,200,0,1,,0
+input_box,Mass Market,consumer_lending_credit_cards_mass_market,$,,71,200,0,1,,1
+input_box,Mass Affluent,consumer_lending_credit_cards_mass_affluent,$,,72,200,0,1,,2
+input_box,APR,consumer_lending_consumer_loans_apr,%,,73,200,0,1,,0
+input_box,Minimum Credit Score,consumer_lending_consumer_loans_minimum_credit_score,#,,74,200,0,1,,1
+select_box,Collections Strategy,consumer_lending_consumer_loans_collections_strategy,,"Moderate,Liberal,Conservative",75,200,0,1,,2
+input_box,Underbanked,consumer_lending_consumer_loans_underbanked,$,,76,200,0,1,,0
+input_box,Mass Market,consumer_lending_consumer_loans_mass_market,$,,77,200,0,1,,1
+input_box,Mass Affluent,consumer_lending_consumer_loans_mass_affluent,$,,78,200,0,1,,2
+input_box,Change In Compensation,retail_banking_employee_compensation_change_in_compensation,%,,79,200,0,1,,0
+input_box,Sales Training,retail_banking_training_budgets_sales_training,$,,80,200,0,1,,1
+input_box,Services Training,retail_banking_training_budgets_services_training,$,,81,200,0,1,,2
+input_box,Compliance Training,retail_banking_training_budgets_compliance_training,$,,82,200,0,1,,0
+input_box,Financial Advicsor Training,retail_banking_training_budgets_financial_advisor_training,$,,83,200,0,1,,1
+input_box,Investment Managment Fee,investment_management_investment_management_investment_management_fee,$,,84,200,0,1,,2
+input_box,Financial Advisors,investment_management_investment_management_financial_advisors,$,,85,200,0,1,,0
+input_box,FA Comission Rate,investment_management_investment_management_fa_commission_rate,$,,86,200,0,1,,1
+input_box,Underbanked,investment_management_investment_management_underbanked,$,,87,200,0,1,,2
+input_box,Mass Market,investment_management_investment_management_mass_market,$,,88,200,0,1,,0
+input_box,Mass Affluent,investment_management_investment_management_mass_affluent,$,,89,200,0,1,,1
+input_box,Rate,mortgage_lending_fixed_rate_ratee ,%,,90,200,0,1,,2
+input_box,Minimum Credit Score,mortgage_lending_fixed_rate_minimum_credit_score ,$,,91,200,0,1,,0
+select_box,Collections Strategy,mortgage_lending_fixed_rate_collections_strategy ,,"Moderate,Liberal,Conservative ",92,200,0,1,,1
+input_box,Underbanked,mortgage_lending_fixed_rate_underbanked ,$,,93,200,0,1,,2
+input_box,Mass Market,mortgage_lending_fixed_rate_mass_market ,$,,94,200,0,1,,0
+input_box,Mass Affluent,mortgage_lending_fixed_rate_mass_affluent ,$,,95,200,0,1,,1
+input_box,Rate(basis points),mortgage_lending_variable_rate_rate ,%,,96,200,0,1,,2
+input_box,Minimum Credit Score,mortgage_lending_variable_rate_minimum_credit_score ,#,,97,200,0,1,,0
+select_box,Collections Strategy,mortgage_lending_variable_rate_collections_strategy ,,"Moderate,Liberal,Conservative ",98,200,0,1,,1
+input_box,Underbanked,mortgage_lending_variable_rate_underbanked ,$,,99,200,0,1,,2
+input_box,Mass Market,mortgage_lending_variable_rate_mass_market ,$,,100,200,0,1,,0
+input_box,Mass Affluent,mortgage_lending_variable_rate_mass_affluent ,$,,101,200,0,1,,1
+input_box,Branches,retail_banking_operations_retail_network_branches,#,,102,200,0,1,,2
+input_box,ATMs,retail_banking_operations_retail_network_atms,#,,103,200,0,1,,0
+input_box,ATM Fee,retail_banking_operations_retail_network_atm_fee,$,,104,200,0,1,,1
+range_input_box,Deposits,retail_banking_operations_service_levels_deposits,%,,105,200,0,1,,2
+range_input_box,Investment Management,retail_banking_operations_service_levels_investment_management,%,,106,200,0,1,,0
+range_input_box,Credit Cards,retail_banking_operations_service_levels_credit_cards,%,,107,200,0,1,,1
+range_input_box,Consumer Lending,retail_banking_operations_service_levels_consumer_lending,%,,108,200,0,1,,2
+range_input_box,Mortgage Lending,retail_banking_operations_service_levels_martgage_lending,%,,109,200,0,1,,0
+input_box,Customer Experience,retail_banking_it_investments_customer_experience,$,,110,200,0,1,,1
+input_box,Payments,retail_banking_it_investments_payments,$,,111,200,0,1,,2
+select_box,Robo Advisory,retail_banking_it_investments_robo_advisory,,"Moderate,Liberal,Conservative",112,200,0,1,,0
+input_box,Risk Analytics,retail_banking_it_investments_risk_analytics,$,,113,200,0,1,,1
+input_box,Process Automation,retail_banking_it_investments_process_automation,$,,114,200,0,1,,2
+input_box,Employee Experience,retail_banking_it_investments_employee_experience,$,,115,200,0,1,,0
+input_box,Minimum Balance,retail_deposits_checking_accounts_minimum_balance,$ ,,116,200,0,1,,1
+input_box,Monthly Account Fee,retail_deposits_checking_accounts_monthly_account_fee,$ ,,117,200,0,1,,2
+input_box,Rate,retail_deposits_checking_accounts_rate,% ,,118,200,0,1,,0
+input_box,Underbanked,retail_deposits_checking_accounts_underbanked,$ ,,119,200,0,1,,1
+input_box,Mass Market,retail_deposits_checking_accounts_mass_market,$ ,,120,200,0,1,,2
+input_box,Mass Affluent,retail_deposits_checking_accounts_mass_affluent,$ ,,121,200,0,1,,0
+input_box,Rate,retail_deposits_savings_accounts_rate,$ ,,122,200,0,1,,1
+input_box,Underbanked,retail_deposits_savings_accounts_underbanked,$ ,,123,200,0,1,,2
+input_box,Mass Market,retail_deposits_savings_accounts_mass_market,$ ,,124,200,0,1,,0
+input_box,Mass Affluent,retail_deposits_savings_accounts_mass_affluent,$ ,,125,200,0,1,,1

@@ -1,0 +1,7 @@
+I"^(function() {
+  jQuery(function() {
+    return recalculate_form();
+  });
+
+}).call(this);
+:ET

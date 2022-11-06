@@ -1,0 +1,176 @@
+<script>
+    var channel;
+    $(function () {
+// Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+        var token = document.getElementsByName('csrf-token')[0].content
+
+        var pusher = new Pusher('d3a2645cfa3fdd883877', {
+            cluster: 'us2',
+            auth: {
+                params: {
+                    CSRFToken: token
+                }
+            }
+        });
+
+        channel = pusher.subscribe('private-test-input-client-<%= @team_round.team.name.parameterize %>-20-update-channel');
+        channel.bind('client-update', function (data) {
+            // alert(JSON.stringify(data));
+            update_data_from_pusher(data);
+
+
+
+
+        });
+        channel.bind("pusher:subscription_succeeded", function () {
+            console.log("Subscribe Succeeded");
+
+        });
+        $('.synced-input').keyup(function () {
+            console.log("Value d Changed!")
+            var the_value = $(this).val();
+            var the_id = $(this)[0].id;
+            console.log("The id is " + the_id);
+            var theTrigger = channel.trigger('client-update', {
+                type: "text",
+                id: the_id,
+                contents: the_value
+            });
+        });
+
+        $('.synced-input').change(function () {
+            console.log("Value d Changed!")
+            var the_value = $(this).val();
+            var the_id = $(this)[0].id;
+            console.log("The id is " + the_id);
+            var theTrigger = channel.trigger('client-update', {
+                type: "text",
+                id: the_id,
+                contents: the_value
+            });
+        });
+
+
+    });
+</script>
+
+<%= form_with url: "/input_screen/" + @input_screen.input_screen_number.to_s + "/submit_decisions", method: :post do |form| %>
+  <%= render  :partial => 'input_screen_button_bar' , locals: {input_screen: @input_screen}  %>
+  <%= render :partial => '/home/page_header', locals: {header_text: "Retail Network"} %>
+
+  <div class="row">
+    <div class="col-6 p-2">
+      <div>
+        <%= render :partial => 'input_box', locals: {label: "Branches", name: "retail_banking_operations_retail_network_branches", value_label: "#"} %>
+      </div>
+      <div>
+        <%= render :partial => 'input_box', locals: {label: "ATMs", name: "retail_banking_operations_retail_network_atms", value_label: "#"} %>
+      </div>
+      <div>
+        <%= render :partial => 'input_box', locals: {label: "ATM Fee", name: "retail_banking_operations_retail_network_atm_fee", value_label: "$"} %>
+      </div>
+    </div>
+
+  </div>
+  <div class="row py-2">
+    <div class="col-6">
+      <%= render :partial => 'bar_graph', locals: {title: "Branches", data: @data['retail_banking_operations_retail_network_graph_1'], options: @options['retail_banking_operations_retail_network_graph_1']} %>
+    </div>
+    <div class="col-6">
+      <%= render :partial => 'bar_graph', locals: {title: "Customers Per Branch", data: @data['retail_banking_operations_retail_network_graph_2'], options: @options['retail_banking_operations_retail_network_graph_2']} %>
+    </div>
+
+  </div>
+
+
+  <%= render :partial => '/home/page_header', locals: {header_text: "Operations (Service Levels)"} %>
+
+  <div class="row">
+    <div class="col-6 p-2">
+      <div>
+        <%= render :partial => 'range_input_box', locals: {label: "Deposits", name: "retail_banking_operations_service_levels_deposits", value_label: "%"} %>
+      </div>
+      <div>
+        <%= render :partial => 'range_input_box', locals: {label: "Investment Management", name: "retail_banking_operations_service_levels_investment_management", value_label: "%"} %>
+      </div>
+      <div>
+        <%= render :partial => 'range_input_box', locals: {label: "Credit Cards", name: "retail_banking_operations_service_levels_credit_cards", value_label: "%"} %>
+      </div>
+      <div>
+        <%= render :partial => 'range_input_box', locals: {label: "Consumer Lending", name: "retail_banking_operations_service_levels_consumer_lending", value_label: "%"} %>
+      </div>
+      <div>
+        <%= render :partial => 'range_input_box', locals: {label: "Mortgage Lending", name: "retail_banking_operations_service_levels_martgage_lending", value_label: "%"} %>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="row py-2">
+    <div class="col-6">
+      <%= render :partial => 'bar_graph', locals: {title: "Efficiency Ratio", data: @data['retail_banking_operations_service_levels_graph_1'], options: @options['retail_banking_operations_service_levels_graph_1']} %>
+    </div>
+    <div class="col-6">
+      <%= render :partial => 'bar_graph', locals: {title: "Deposit Retention Rate", data: @data['retail_banking_operations_service_levels_graph_2'], options: @options['retail_banking_operations_service_levels_graph_2']} %>
+    </div>
+
+  </div>
+
+  <div class="row py-2">
+    <div class="col-6">
+      <%= render :partial => 'bar_graph', locals: {title: "Lending Retention Rate", data: @data['retail_banking_operations_service_levels_graph_3'], options: @options['retail_banking_operations_service_levels_graph_3']} %>
+    </div>
+    <div class="col-6">
+      <%= render :partial => 'bar_graph', locals: {title: "Investment Management Retention Rate", data: @data['retail_banking_operations_service_levels_graph_4'], options: @options['retail_banking_operations_service_levels_graph_4']} %>
+    </div>
+
+  </div>
+
+  <%= render :partial => '/home/page_header', locals: {header_text: "IT Investments ($ - millions)"} %>
+
+  <div class="row">
+    <div class="col-6 p-2">
+      <div>
+        <%= render :partial => 'input_box', locals: {label: "Customer Experience", name: "retail_banking_it_investments_customer_experience", value_label: "$"} %>
+      </div>
+      <div>
+        <%= render :partial => 'input_box', locals: {label: "Payments", name: "retail_banking_it_investments_payments", value_label: "$"} %>
+      </div>
+
+      <div>
+        <%= render :partial => 'input_box', locals: {label: "Robo Advisory", name: "retail_banking_it_investments_robo_advisory", values: ["Moderate", "Liberal", "Conservative"], value_label: "$"} %>
+      </div>
+    </div>
+    <div class="col-6 p-2">
+      <div>
+        <%= render :partial => 'input_box', locals: {label: "Risk Analytics", name: "retail_banking_it_investments_risk_analytics", value_label: "$"} %>
+      </div>
+      <div>
+        <%= render :partial => 'input_box', locals: {label: "Process Automation", name: "retail_banking_it_investments_process_automation", value_label: "$"} %>
+      </div>
+      <div>
+        <%= render :partial => 'input_box', locals: {label: "Employee Experience", name: "retail_banking_it_investments_employee_experience", value_label: "$"} %>
+      </div>
+    </div>
+  </div>
+  <div class="row py-2">
+    <div class="col-6">
+      <%= render :partial => 'bar_graph', locals: {title: "Market Share", data: @data['retail_banking_operations_it_investments_graph_1'], options: @options['retail_banking_operations_it_investments_graph_1']} %>
+    </div>
+
+ <div class="col-6">
+      <%= render :partial => 'bar_graph', locals: {title: "Market Share", data: @data['retail_banking_operations_it_investments_graph_2'], options: @options['retail_banking_operations_it_investments_graph_2']} %>
+    </div>
+
+
+  </div>
+
+
+
+
+
+  <%= render 'input_screen_bottom_button_bar' %>
+
+<% end %>

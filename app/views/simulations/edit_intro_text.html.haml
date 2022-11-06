@@ -1,0 +1,22 @@
+= form_for @simulation, html: { class: "form-horizontal", role: "form" } do |f|
+  -if @simulation.errors.any?
+    .alert.alert-danger.alert-dismissable{role: "alert"}
+      %button.close{type: "button", data: {dismiss: "alert"} }
+        %span{aria: {hidden: "true"} } &times;
+        %span.sr-only Close
+      %h4= "#{pluralize(@simulation.errors.count, "error")} prohibited this simulation from being saved:"
+
+      %ul
+        - @simulation.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label "Intro", class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_area :intro_text, class: 'form-control' , rows: 10
+
+
+  .row.my-2
+    .form-group
+      .col-sm-offset-2.col-sm-10
+        = f.submit class: 'btn btn-primary'

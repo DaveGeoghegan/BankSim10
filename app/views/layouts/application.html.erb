@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <meta name="description"/>
+  <meta name="author"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;400&display=swap" rel="stylesheet">
+  <title>Executive Suite Banking Simulation™</title>
+
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <%= javascript_include_tag "https://js.pusher.com/7.0/pusher.min.js" %>
+</head>
+<body>
+<% flash.each do |type, msg| %>
+  <div class="alert alert-info">
+    <%= msg %>
+  </div>
+<% end %>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <img src="<%= image_url('top_bar_logo.png') %>" class="top-bar-logo me-2">
+    <a class="navbar-brand" href="#">
+      Executive Suite Banking Simulation™
+    </a>
+    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+      <div class="d-flex">
+
+<!--        User:-->
+<!--        <div><%#= current_team&.name %></div>-->
+        <% if current_team.name == "admin" then %>
+          <a href="/admin">
+            <button class="btn btn-link text-decoration-none">Admin Dashboard</button>
+          </a>
+        <% end %>
+        <a href="/help/participant_instructions.pdf" target="_blank"><button class="btn btn-link text-white mx-2 text-decoration-none">Help</button></a>
+        <a href="/teams/sign_out">
+          <button class="btn text-white btn-link mx-2 text-decoration-none">Logout</button>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+<% input_screens = InputScreen.all %>
+<% active_round = Simulation.get_current_simulation&.get_current_round %>
+<% if !active_round.nil? %>
+  <% team_round = current_team.get_active_team_round %>
+  <div class="container-fluid">
+    <div class="row">
+      <% if current_team.name != "admin" then %>
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 vh-100 d-md-block bg-dark sidebar">
+          <div class="sidebar-header text-white">
+            <a class="nav-link p-0 pt-3 ps-1 " href="/">Dashboard</a>
+          </div>
+          <div class="position-sticky pt-3">
+
+            <div class="nav-item text-light">
+              <a href="#retail-banking-submenu" data-bs-target="#retail-banking-submenu" data-bs-toggle="collapse" class="dropdown-toggle nav-link px-0 align-middle collapsed " aria-expanded="false">
+                <span class="ms-1 text-light d-none d-sm-inline">Retail Banking</span>
+              </a>
+              <% is_current_view = false %>
+              <% input_screens[0..5].each do |is| %>
+              <% if is.input_screen_number == @input_screen&.input_screen_number then
+                   is_current_view = true
+                 end
+                 end
+              %>
+
+              <ul class="<%= is_current_view == true ? "" : "collapse" %>  nav flex-column " id="retail-banking-submenu" data-bs-parent="#sidebarMenu">
+                <% input_screens[0..5].each do |is| %>
+                  <% team_round_input_screen = TeamRoundInputScreen.where(:input_screen => is).where(:team_round => team_round).first %>
+                  <%= render :partial => 'layouts/nav_element', locals: {team_round_input_screen: team_round_input_screen, active_round: active_round, is: is} %>
+                <% end %>
+              </ul>
+              <div class="nav-item text-light">
+                <a href="#corporate-banking-submenu" data-bs-toggle="collapse" class="dropdown-toggle nav-link px-0 align-middle ">
+                  <span class="ms-1 text-light d-none d-sm-inline">Corporate Banking</span></a>
+              </div>
+              <% is_current_view = false %>
+              <% input_screens[6..10].each do |is| %>
+              <% if is.input_screen_number == @input_screen&.input_screen_number then
+                   is_current_view = true
+                 end
+                 end
+              %>
+              <ul class="<%= is_current_view == true ? "" : "collapse" %>   nav flex-column " id="corporate-banking-submenu" data-bs-parent="#sidebarMenu">
+                <% input_screens[6..10].each do |is| %>
+                  <% team_round_input_screen = TeamRoundInputScreen.where(:input_screen => is).where(:team_round => team_round).first %>
+                  <%= render :partial => 'layouts/nav_element', locals: {team_round_input_screen: team_round_input_screen, active_round: active_round, is: is} %>
+                <% end %>
+
+              </ul>
+              <div class="nav-item text-light">
+                <a href="#asset-liability-submenu" data-bs-toggle="collapse" class="dropdown-toggle nav-link px-0 align-middle ">
+
+                  <span class=" ms-1 text-light d-none d-sm-inline">Asset/Liability Management</span></a>
+              </div>
+              <% is_current_view = false %>
+              <% is = input_screens[11] %>
+              <% if is.input_screen_number == @input_screen&.input_screen_number then
+                   is_current_view = true
+                 end
+              %>
+              <ul class="<%= is_current_view == true ? "" : "collapse" %>    nav flex-column " id="asset-liability-submenu" data-bs-parent="#sidebarMenu">
+
+                <% team_round_input_screen = TeamRoundInputScreen.where(:input_screen => is).where(:team_round => team_round).first %>
+                <%= render :partial => 'layouts/nav_element', locals: {team_round_input_screen: team_round_input_screen, active_round: active_round, is: is} %>
+
+              </ul>
+            </div>
+
+          </div>
+        </nav>
+      <% end %>
+<% end %>
+<main class="col-9 bg-light">
+  <div class="row m-3 bg-white w-100">
+    <div class="col">
+      <%= yield %>
+    </div>
+  </div>
+</main>
+</div>
+</div>
+</body>
+</html>
