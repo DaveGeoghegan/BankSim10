@@ -52,7 +52,7 @@
 </nav>
 <% input_screens = InputScreen.all %>
 <% active_round = Simulation.get_current_simulation&.get_current_round %>
-<% if !active_round.nil? %>
+<% if !active_round.nil?  &&  !current_team.simulation.nil? %>
   <% team_round = current_team.get_active_team_round %>
   <div class="container-fluid">
     <div class="row">

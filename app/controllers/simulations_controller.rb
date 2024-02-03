@@ -84,6 +84,13 @@ class SimulationsController < ApplicationController
   # DELETE /simulations/1
   # DELETE /simulations/1.json
   def destroy
+    @simulation.teams.each do |team|
+      if !team.is_admin
+        team.destroy
+      else
+        current_team.team_rounds.destroy
+      end
+    end
     @simulation.destroy
     respond_to do |format|
       format.html { redirect_to "/admin", notice: 'Simulation was successfully destroyed.' }

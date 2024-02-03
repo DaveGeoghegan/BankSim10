@@ -135,7 +135,7 @@ defaults = [
 # end
 #
 puts " I am Going to Create the teams!"
-
+Team.destroy_all
 admin = Team.create({
                         name: 'admin',
                         password: 'psiou812',
